@@ -16,18 +16,21 @@ require("dotenv/config");
 app.use(bodyParser.json());
 app.use(morgan("tiny"));
 app.use(authJwt());
+app.use("/public/uploads", express.static(__dirname + "/public/uploads"));
 app.use(errorHandler);
 
 // routes //
 const productsRoutes = require("./routes/products");
 const categoriesRoutes = require("./routes/categories");
 const usersRoutes = require("./routes/users");
+const ordersRoute = require("./routes/orders");
 
 const api = process.env.API_URL;
 
 app.use(`${api}/products`, productsRoutes);
 app.use(`${api}/categories`, categoriesRoutes);
 app.use(`${api}/users`, usersRoutes);
+app.use(`${api}/orders`, ordersRoute);
 
 mongoose
   .connect(process.env.CONNECTION_STRING, {
